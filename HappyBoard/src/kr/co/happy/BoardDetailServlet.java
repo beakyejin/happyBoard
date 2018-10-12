@@ -10,35 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sun.corba.se.spi.orbutil.fsm.Input;
-
-@WebServlet("/boardList")
-public class BoardListServlet extends HttpServlet {
+@WebServlet("/boardDetail")
+public class BoardDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String btype = request.getParameter("btype");
-		String page = request.getParameter("page");
+		int btype = Integer.parseInt(request.getParameter("btype"));
+		int page = Integer.parseInt(request.getParameter("page"));
+		int _page = Integer.parseInt(request.getParameter("page"));
+		int seq = Integer.parseInt(request.getParameter("seq"));
 		
-		//default 값
-		int intBtype = 0; 
-		if(btype != null) {
-			intBtype = Integer.parseInt(btype);
-		}
-		
-		int intPage = 1;
-		if(page != null) {
-			intPage = Integer.parseInt(page);
-		}
-		
-		//DB에서 자료 가져오기
 		BoardDAO dao = BoardDAO.getInstance();
-		ArrayList<BoardDTO> list = dao.getBaordList(intBtype, intPage);
+		ArrayList<BoardDTO> data = dao.getBoardDetail(btype, seq);
 		
-		request.setAttribute("data", list);
-		request.setAttribute("btype", intBtype);
-		request.setAttribute("page", intPage);
-		request.setAttribute("target", "boardList");
+		request.setAttribute("data", data);
+		request.setAttribute("btype", btype);
+		request.setAttribute("page", _page);
+		request.setAttribute("target", "boardDetail");
 		RequestDispatcher rd = request.getRequestDispatcher("template.jsp");
 		rd.forward(request, response);
 	}

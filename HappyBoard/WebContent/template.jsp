@@ -4,11 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href="common.css">
 <title>해피 게시판</title>
 </head>
 <body>
 	<jsp:include page="top_menu.jsp" />
-	<jsp:include page="${target}.jsp" />
+	<div class="content">
+		<jsp:include page="${target}.jsp" />
+	</div>
 	<jsp:include page="bottom.jsp" />
 </body>
 </html>

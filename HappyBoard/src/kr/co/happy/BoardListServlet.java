@@ -34,7 +34,9 @@ public class BoardListServlet extends HttpServlet {
 		//DB에서 자료 가져오기
 		BoardDAO dao = BoardDAO.getInstance();
 		ArrayList<BoardDTO> list = dao.getBaordList(intBtype, intPage);
+		int indexPage = dao.getMaxlist(intBtype);
 		
+		request.setAttribute("idxPage", indexPage);
 		request.setAttribute("data", list);
 		request.setAttribute("btype", intBtype);
 		request.setAttribute("page", intPage);

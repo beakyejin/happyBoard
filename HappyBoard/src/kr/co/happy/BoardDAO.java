@@ -18,7 +18,7 @@ public class BoardDAO {
 	}
 	
 	private BoardDAO() {}
-	private final int LIST_CNT = 20;
+	private final int LIST_CNT = 15;
 	
 	public ArrayList<BoardDTO> getBaordList(int btype, int page){
 		ArrayList<BoardDTO> datas = new ArrayList<>();
@@ -119,14 +119,15 @@ public class BoardDAO {
 					+ " ( "
 					+ "   (select nvl(max(bid),0)+1 from h_board),"
 					+ " ?, "
-					+ "   (select nvl(max(seq),0)+1 from h_board),"
+					+ "   (select nvl(max(seq),0)+1 from h_board where btype=?),"
 					+ " ?, ?, ?)";
 			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, btype);
-			ps.setString(2, btitle);
-			ps.setString(3, bcontent);
-			ps.setString(4, pw);
+			ps.setInt(2, btype);
+			ps.setString(3, btitle);
+			ps.setString(4, bcontent);
+			ps.setString(5, pw);
 			
 			ps.executeQuery();
 			
@@ -137,5 +138,123 @@ public class BoardDAO {
 			DBConnector.close(conn, ps, null);
 		}
 		
+	}
+
+	public boolean chkPassword(int btype, int seq, String pw) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean flag = false;
+		
+		try {
+			conn = DBConnector.getConn();
+			
+			String query = " select bid, btype, seq, pw " 
+					+ " from h_board " 
+					+ " where btype=? and seq=? and pw=? ";
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, btype);
+			ps.setInt(2, seq);
+			ps.setString(3, pw);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				flag = true;
+			}
+			
+		}catch (Exception e) {
+			System.out.println("chkPw 오류");
+			e.printStackTrace();
+		}finally {
+			DBConnector.close(conn, ps, rs);
+		}
+		return flag;
+	}
+
+	public void boardUpdate(int btype, int seq, String btitle, String bcontent, String pw) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = DBConnector.getConn();
+			
+			String query = " update h_board "
+					+ " set btitle=?"
+					+ " ,bcontent=?"
+					+ " ,pw=?"
+					+ "where btype=? and seq=?";
+			
+			ps = conn.prepareStatement(query);
+			ps.setString(1, btitle);
+			ps.setString(2, bcontent);
+			ps.setString(3, pw);
+			ps.setInt(4, btype);
+			ps.setInt(5, seq);
+			
+			ps.executeQuery();
+			
+		} catch (Exception e) {
+			System.out.println("boardUpdate 오류");
+			e.printStackTrace();
+		}finally {
+			DBConnector.close(conn, ps, null);
+		}
+		
+	}
+
+	public void boardDelete(int btype, int seq) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = DBConnector.getConn();
+			
+			String query = " delete from h_board "
+					+ " where btype=? and seq=? ";
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, btype);
+			ps.setInt(2, seq);
+			
+			ps.executeQuery();
+			
+		} catch (Exception e) {
+			System.out.println("boardDelete 오류");
+			e.printStackTrace();
+		}finally {
+			DBConnector.close(conn, ps, null);
+		}
+		
+	}
+
+	public int getMaxlist(int intBtype) {
+		int idxPage = 1;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DBConnector.getConn();
+			
+			String query = " select ceil(count(seq)/15) as cnt from h_board "
+					+ " where btype=? ";
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, intBtype);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				idxPage = rs.getInt("cnt");
+			}
+			
+		} catch (Exception e) {
+			System.out.println("getMaxlist 오류");
+			e.printStackTrace();
+		}finally {
+			DBConnector.close(conn, ps, rs);
+		}
+		
+		return idxPage;
 	} 
 }

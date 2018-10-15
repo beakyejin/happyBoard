@@ -4,8 +4,7 @@
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<BoardDTO> list = (ArrayList<BoardDTO>)request.getAttribute("data");
-	int btype = (int)request.getAttribute("btype");
-	int _page = (int)request.getAttribute("page");
+	int idxPage = (int)request.getAttribute("idxPage");
 %>
 <% if(list.size() > 0){ %>
 <div class="tb_alldiv">
@@ -23,7 +22,7 @@
 				<tr>
 					<td><%=a.getSeq() %></td>
 					<td>
-						<a href="boardDetail?btype=<%=btype%>&page=<%=_page%>&seq=<%=a.getSeq() %>">
+						<a href="boardDetail?btype=${btype}&page=${page}&seq=<%=a.getSeq() %>">
 							<%=a.getBtitle() %></a></td>
 					<td><%=a.getBregdate() %></td>
 				</tr>
@@ -31,10 +30,17 @@
 			</tbody>
 		</table>
 	</div>
-<% }else {%>
+	<div class="idxpage">
+		<p>
+			<% for (int i = 1; i <= idxPage; i++) { %>
+			<a href="boardList?btype=${btype}&page=<%=i%>"><%=i%></a>
+			<% } %>
+		</p>
+	</div>
+	<% }else {%>
 	게시글이 없습니다.
 <% }%>
 	<div class="btn">
-		<input type="button" value="글쓰기" onclick="location.href='boardWrite?btype=<%=btype%>&page=<%=_page%>&seq=0'">
+		<input type="button" value="글쓰기" onclick="location.href='boardWrite?btype=${btype}&page=${page}&seq=0&kind=new'">
 	</div>
 </div>

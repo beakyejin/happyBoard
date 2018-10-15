@@ -4,32 +4,29 @@
     pageEncoding="UTF-8"%>
 <%
 	ArrayList<BoardDTO> list = (ArrayList<BoardDTO>)request.getAttribute("data");
-	int btype = (int)request.getAttribute("btype");
-	int _page = (int)request.getAttribute("page");
 %>
 <div class="tb_alldiv">
 	<div class="tb_div">
 		<table>
-		<%for(BoardDTO a : list){ %>
+		<%for(BoardDTO vo : list){ %>
 			<tr>
 				<td>제목</td>
-				<td><%=a.getBtitle() %></td>
+				<td><%=vo.getBtitle() %></td>
 			</tr>
 			<tr>
 				<td>작성 일시</td>
-				<td><%=a.getBregdate() %></td>
+				<td><%=vo.getBregdate() %></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><%=a.getBcontent() %></td>
+				<td><%=vo.getBcontent() %></td>
 			</tr>
 		</table>
 	</div>
 	<div class="btn">
-		<input type="button" value="목록" onclick="location.href='boardList?btype=<%=btype%>&page=<%=_page%>'">
-		<input type="button" value="수정" onclick="location.href='checkpw?btype=<%=btype%>&seq=<%=a.getSeq()%>'">
-		<%-- <input type="button" value="수정" onclick="location.href='boardWrite?btype=<%=btype%>&seq=<%=a.getSeq()%>'"> --%>
-		<input type="button" value="삭제">
+		<input type="button" value="목록" onclick="location.href='boardList?btype=${btype}&page=${page}'">
+		<input type="button" value="수정" onclick="location.href='checkPw?btype=${btype}&seq=<%=vo.getSeq()%>&page=${page}&kind=modify'">
+		<input type="button" value="삭제" onclick="location.href='checkPw?btype=${btype}&seq=<%=vo.getSeq()%>&page=${page}&kind=delete'">
 	</div>
 	<%} %>
 </div>

@@ -16,19 +16,24 @@ public class BoardWriteServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int btype = Integer.parseInt(request.getParameter("btype"));
+		String kind = request.getParameter("kind");
 		int seq = Integer.parseInt(request.getParameter("seq"));
+		int page = Integer.parseInt(request.getParameter("page"));
 		
 		if(seq > 0) {
 			BoardDAO dao = BoardDAO.getInstance();
 			ArrayList<BoardDTO> data = dao.getBoardDetail(btype, seq);
 			
 			request.setAttribute("data", data);
+			request.setAttribute("seq", seq);
 		}else {
 			request.setAttribute("data", null);
+			request.setAttribute("seq", 0);
 		}
 	
+		request.setAttribute("page", page);
+		request.setAttribute("kind", kind);
 		request.setAttribute("btype", btype);
-		request.setAttribute("seq", seq);
 		request.setAttribute("target", "boardWrite");
 		RequestDispatcher rd = request.getRequestDispatcher("template.jsp");
 		rd.forward(request, response);
@@ -39,15 +44,26 @@ public class BoardWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		int btype = Integer.parseInt(request.getParameter("btype"));
-		int seq = Integer.parseInt(request.getParameter("seq"));
 		String btitle = request.getParameter("btitle");
 		String bcontent = request.getParameter("bcontent");
 		String pw = request.getParameter("pw");
-
+		String kind = request.getParameter("kind");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int seq = Integer.parseInt(request.getParameter("seq"));
+	
 		BoardDAO dao = BoardDAO.getInstance();
-		dao.boardInsert(btype, btitle, bcontent, pw);
+		if(kind.equals("new")) {
+			dao.boardInsert(btype, btitle, bcontent, pw);
+			
+			response.sendRedirect("boardList?btype="+btype+"&page=1");
+		}else {
+			//modify
+			dao.boardUpdate(btype, seq, btitle, bcontent, pw);
+			
+			response.sendRedirect("boardDetail?btype="+btype+"&page="+page+"&seq="+seq);
+		}
+
 		
-		response.sendRedirect("boardList?btype="+btype+"&page=1");
 	}
 
 }

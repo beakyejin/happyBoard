@@ -237,8 +237,11 @@ public class BoardDAO {
 		try {
 			conn = DBConnector.getConn();
 			
-			String query = " select ceil(count(seq)/15) as cnt from h_board "
-					+ " where btype=? ";
+			/*String query = " select ceil(count(seq)/15) as cnt from h_board "
+					+ " where btype=? ";*/
+			
+			String query = String.format("select ceil(count(seq)/%d)"
+					+ " as cnt from h_board where btype = ? ", LIST_CNT);
 			
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, intBtype);

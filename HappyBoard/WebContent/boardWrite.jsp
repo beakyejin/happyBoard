@@ -1,5 +1,5 @@
-<%@page import="kr.co.happy.BoardDTO"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="kr.co.happy.BoardDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -12,23 +12,23 @@
 		<div class="tb_div">
 		<%if(list != null){ %>
 			<table>
-			<%for(BoardDTO a : list){ %>
+			<%for(BoardDTO vo : list){ %>
 				<tr>
 					<td>제목</td>
 					<td> 
-						<input type="text" name="btitle" value="<%=a.getBtitle()%>" required>
+						<input type="text" name="btitle" value="<%=vo.getBtitle()%>" required>
 					</td> 
 				</tr>
 				<tr>
 					<td>내용</td>
 					<td>
-						<textarea name="bcontent" required><%=a.getBcontent() %></textarea>
+						<textarea name="bcontent" required><%=vo.getBcontent() %></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>
 					<td>
-						<input type="password" name="pw" value="<%=a.getPw()%>" required>
+						<input type="password" name="pw" value="<%=vo.getPw()%>" required>
 					</td>
 				</tr>
 			<%} %>

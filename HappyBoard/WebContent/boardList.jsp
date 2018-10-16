@@ -18,13 +18,13 @@
 				</tr>
 			</thead>
 			<tbody>
-			<% for(BoardDTO a: list){ %>
+			<% for(BoardDTO vo: list){ %>
 				<tr>
-					<td><%=a.getSeq() %></td>
+					<td><%=vo.getSeq() %></td>
 					<td>
-						<a href="boardDetail?btype=${btype}&page=${page}&seq=<%=a.getSeq() %>">
-							<%=a.getBtitle() %></a></td>
-					<td><%=a.getBregdate() %></td>
+						<a href="boardDetail?btype=${btype}&page=${page}&seq=<%=vo.getSeq() %>">
+							<%=vo.getBtitle() %></a></td>
+					<td><%=vo.getBregdate() %></td>
 				</tr>
 			<% } %>
 			</tbody>

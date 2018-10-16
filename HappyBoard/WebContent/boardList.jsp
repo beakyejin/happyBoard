@@ -6,7 +6,7 @@
 	ArrayList<BoardDTO> list = (ArrayList<BoardDTO>)request.getAttribute("data");
 	int idxPage = (int)request.getAttribute("idxPage");
 %>
-<% if(list.size() > 0){ %>
+<% if(list.size() > 0){ %>  
 <div class="tb_alldiv">
 	<div class="tb_div">
 		<table>

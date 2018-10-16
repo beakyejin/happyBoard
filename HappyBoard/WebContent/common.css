@@ -7,51 +7,45 @@ html, body{
 	padding: 0;
 	margin: 0;
 }
-a{
+a{ /* a태그 */
 	text-decoration: none;
 	color: black;	
 }
-.top{
+.top{ /* 상단 */
 	height: 15%;
 	background-color: #81ecec;
 }
-.top .tp_top{
+.top .tp_top{ 
 	height: 70%;
 }
-.top .tp_menu ul{
+ul{
 	list-style: none;
-	background-color: #00cec9;
-	padding: 0;
 	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color:  #00cec9;
 }
-.top .tp_menu ul li{
-	padding: 14px 16px;
+li{
+	float: left;
+}
+li a, .drop{
 	display: inline-block;
+	text-align: center;
+	padding: 14px 16px;
 }
-.top .tp_menu ul li .submenu{
-	display: none;
-	z-index: 1;  
-	position: absolute;
-	padding: 5px;
-	background-color: white;
-	margin: 14px -16px;
-	box-shadow: 1px 1px 1px black;
-}
-.top .tp_menu ul .dropdown:hover ul{
-	display: block;
-}
-.top .tp_menu ul .dropdown li{
-	display: block;
-}
-.top .tp_menu ul li:hover{
+li a:hover, .dropdwon:hover .drop{
 	background-color: #dfe6e9;
 }
-.content{
+li .dropdown{
+	display: inline-block;
+}
+.content{ 
 	height: 70%;
-	overflow: auto;
+	overflow: auto; 
 	width: 100%;
 	padding: 15px;
 }
+
 .tb_alldiv{
 	margin: 10px;
 }
@@ -60,7 +54,7 @@ a{
 	float: left;
 	margin: 10px 0;
 }
-.idxpage{
+.idxpage{ /* 페이징페이지 */
 	width: 100%;
     display: flex;
     justify-content: center;
@@ -92,7 +86,7 @@ textarea {
 	height: 15%;
 	background-color: #636e72;
 }
-.chk_box {
+.chk_box { /* 비밀번호 체크 */
 	margin: 10px;
 }
 .chk_box form{
